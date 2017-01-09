@@ -1,11 +1,11 @@
 # The YaST C++ Testing Image
 
-[![Build Status](https://travis-ci.org/yast/docker-yast-cpp-tw.svg?branch=master)](https://travis-ci.org/yast/docker-yast-cpp-tw)
+[![Build Status](https://travis-ci.org/yast/docker-yast-cpp.svg?branch=master)](https://travis-ci.org/yast/docker-yast-cpp)
 
 This repository builds a [Docker](https://www.docker.com/) image which is used
 for running the CI tests at [Travis](https://travis-ci.org/).
-The built image is available at the [yastdevel/cpp-tw](
-https://hub.docker.com/r/yastdevel/cpp-tw/) Docker repository.
+The built image is available at the [yastdevel/cpp](
+https://hub.docker.com/r/yastdevel/cpp/) Docker repository.
 
 ## Automatic Rebuilds
 
@@ -15,8 +15,8 @@ https://hub.docker.com/r/yastdevel/cpp-tw/) Docker repository.
 - Additionally the image is periodically rebuilt to ensure the latest YaST
   packages from the [YaST:Head](https://build.opensuse.org/project/show/YaST:Head)
   OBS project are used even when the image configuration has not been changed.
-  The build is triggered by the [docker-trigger-yastdevel-cpp-tw](
-  https://ci.opensuse.org/view/Yast/job/docker-trigger-yastdevel-cpp-tw/)
+  The build is triggered by the [docker-trigger-yastdevel-cpp](
+  https://ci.opensuse.org/view/Yast/job/docker-trigger-yastdevel-cpp/)
   Jenkins job.
 
 - The upstream dependency to the [opensuse](https://hub.docker.com/_/opensuse/)
@@ -29,7 +29,7 @@ If for some reason the automatic rebuilds do not work or you need to fix
 a broken build you can trigger rebuild manually.
 
 - Go to the [Build Settings](
-https://hub.docker.com/r/yastdevel/cpp-tw/~/settings/automated-builds/) tab
+https://hub.docker.com/r/yastdevel/cpp/~/settings/automated-builds/) tab
 and press the *Trigger* button next to the *master* branch configuration line.
 
 - If you need to trigger the build from a script check the *Build Triggers*
