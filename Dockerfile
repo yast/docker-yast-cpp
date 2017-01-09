@@ -39,8 +39,8 @@ RUN zypper --gpg-auto-import-keys --non-interactive in --no-recommends \
   && zypper clean -a
 COPY yast-travis-cpp /usr/local/bin/
 ENV LC_ALL=en_US.UTF-8
-RUN mkdir /tmp/sources
-WORKDIR /tmp/sources
+RUN mkdir -p /usr/src/app
+WORKDIR /usr/src/app
 # just a smoke test, make sure YaST...
 RUN /usr/lib/YaST2/bin/y2base --help
 # ...and GCC work
