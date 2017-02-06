@@ -29,6 +29,7 @@ RUN zypper --gpg-auto-import-keys --non-interactive in --no-recommends \
   gcc-c++ \
   libtool \
   libxslt \
+  obs-service-source_validator \
   ruby-devel \
   sgml-skel \
   yast2-devtools \
