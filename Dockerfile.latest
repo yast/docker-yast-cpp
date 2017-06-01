@@ -1,6 +1,10 @@
 FROM opensuse:tumbleweed
 RUN zypper ar -f http://download.opensuse.org/repositories/YaST:/Head/openSUSE_Tumbleweed/ yast
 
+# "zypper dup" synchronizes with the current Tumbleweed (even downgrades if needed)
+RUN zypper --gpg-auto-import-keys --non-interactive dup --no-recommends \
+  && zypper clean -a
+
 # we need to install Ruby first to define the %{rb_default_ruby_abi} RPM macro
 # see https://docs.docker.com/engine/userguide/eng-image/dockerfile_best-practices/#run
 # https://docs.docker.com/engine/userguide/eng-image/dockerfile_best-practices/#/build-cache
