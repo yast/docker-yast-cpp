@@ -4,4 +4,13 @@ services:
   - docker
 
 script:
-  - docker build -t yast-test-image .
+  # at least run a syntax check for the Travis script
+  - bash -n yast-travis-cpp
+  # build the Docker image
+  - docker build -t yast-test-image -f Dockerfile.$DOCKER_TAG .
+
+env:
+  # define the build matrix to build all images in parallel
+  - DOCKER_TAG=latest
+  - DOCKER_TAG=sle12-sp2
+  - DOCKER_TAG=caasp-1_0
