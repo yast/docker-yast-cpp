@@ -11,7 +11,7 @@ FROM opensuse:tumbleweed
 # this repo even if they have a lower version than the original 42.3 packages.
 # FIXME: use the TW build target for now, later switch to:
 # RUN zypper ar -f -p 95 http://download.opensuse.org/repositories/YaST:/SLE-12:/SP3/SLE_12_SP3/ \
-RUN zypper ar -f -p 95 http://download.opensuse.org/repositories/YaST:/SLE-12:/SP3/openSUSE_Tumbleweed/ \
+RUN zypper ar -f -p 95 http://download.opensuse.org/repositories/YaST:/SLE-12:/SP3/openSUSE_Factory/ \
   yast_sle12_sp3
 
 # we need to install Ruby first to define the %{rb_default_ruby_abi} RPM macro
@@ -19,9 +19,10 @@ RUN zypper ar -f -p 95 http://download.opensuse.org/repositories/YaST:/SLE-12:/S
 # https://docs.docker.com/engine/userguide/eng-image/dockerfile_best-practices/#/build-cache
 # why we need "zypper clean -a" at the end
 RUN zypper --gpg-auto-import-keys --non-interactive in --no-recommends \
-  ruby && zypper clean -a
+  ruby2.4 && zypper clean -a
 
-RUN RUBY_VERSION=`rpm --eval '%{rb_default_ruby_abi}'` && \
+## FIXME: remove the 2.4 workaround, use RUBY_VERSION=`rpm --eval '%{rb_default_ruby_abi}'`
+RUN RUBY_VERSION=ruby:2.4.0 && \
   zypper --gpg-auto-import-keys --non-interactive in --no-recommends \
   aspell-en \
   fdupes \
