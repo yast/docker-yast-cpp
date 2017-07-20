@@ -58,5 +58,8 @@ ENV LC_ALL=en_US.UTF-8
 RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
 
+# FIXME: temporary workaround to make Ruby 2.4 default
+RUN cp -a /usr/bin/ruby.ruby2.4 /usr/bin/ruby
+
 # run some smoke tests to make sure there is no serious issue with the image
 RUN /usr/lib/YaST2/bin/y2base --help && c++ --version && rake -r yast/rake -V
