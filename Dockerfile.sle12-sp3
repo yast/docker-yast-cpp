@@ -2,16 +2,14 @@
 # because of some licensing issues, use openSUSE-42.3 as a replacement.
 # It shares the same core packages and should be close enough to SLE12-SP3
 # for running the YaST tests.
-# FIXME: for now use the TW base, 42.3 (beta) has not been published yet,
-# after releasing 42.3 update this line to:
-# FROM opensuse:42.3
-FROM opensuse:tumbleweed
+# FIXME: for now use our own 42.3 image, the officiall image has not been
+# published yet
+# TODO: FROM opensuse:42.3
+FROM yastdevel/opensuse-42.3
 
 # Set a higher priority for the yast_sle_12_sp3 repo to prefer the packages from
 # this repo even if they have a lower version than the original 42.3 packages.
-# FIXME: use the TW build target for now, later switch to:
-# RUN zypper ar -f -p 95 http://download.opensuse.org/repositories/YaST:/SLE-12:/SP3/SLE_12_SP3/ \
-RUN zypper ar -f -p 95 http://download.opensuse.org/repositories/YaST:/SLE-12:/SP3/openSUSE_Tumbleweed/ \
+RUN zypper ar -f -p 95 http://download.opensuse.org/repositories/YaST:/SLE-12:/SP3/openSUSE_Leap_42.3/ \
   yast_sle12_sp3
 
 # we need to install Ruby first to define the %{rb_default_ruby_abi} RPM macro
