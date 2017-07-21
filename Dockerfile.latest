@@ -45,7 +45,7 @@ RUN RUBY_VERSION=ruby:2.4.0 && \
   libtool \
   libxslt \
   obs-service-source_validator \
-  ruby-devel \
+  ruby2.4-devel \
   sgml-skel \
   yast2-devtools \
   yast2-core-devel \
