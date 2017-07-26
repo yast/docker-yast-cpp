@@ -1,5 +1,5 @@
 FROM opensuse:tumbleweed
-RUN zypper ar -f http://download.opensuse.org/repositories/YaST:/Head/openSUSE_Factory/ yast
+RUN zypper ar -f http://download.opensuse.org/repositories/YaST:/Head/openSUSE_Tumbleweed/ yast
 
 # "zypper dup" synchronizes with the current Tumbleweed (even downgrades if needed)
 RUN zypper --gpg-auto-import-keys --non-interactive dup --no-recommends \
@@ -9,12 +9,10 @@ RUN zypper --gpg-auto-import-keys --non-interactive dup --no-recommends \
 # see https://docs.docker.com/engine/userguide/eng-image/dockerfile_best-practices/#run
 # https://docs.docker.com/engine/userguide/eng-image/dockerfile_best-practices/#/build-cache
 # why we need "zypper clean -a" at the end
-## FIXME: remove the ruby2.4 workaround (replace by pure "ruby")
 RUN zypper --gpg-auto-import-keys --non-interactive in --no-recommends \
-  ruby2.4 && zypper clean -a
+  ruby && zypper clean -a
 
-## FIXME: remove the 2.4 workaround, use RUBY_VERSION=`rpm --eval '%{rb_default_ruby_abi}'`
-RUN RUBY_VERSION=ruby:2.4.0 && \
+RUN RUBY_VERSION=`rpm --eval '%{rb_default_ruby_abi}'` && \
   zypper --gpg-auto-import-keys --non-interactive in --no-recommends \
   aspell-en \
   fdupes \
@@ -45,7 +43,7 @@ RUN RUBY_VERSION=ruby:2.4.0 && \
   libtool \
   libxslt \
   obs-service-source_validator \
-  ruby2.4-devel \
+  ruby-devel \
   sgml-skel \
   yast2-devtools \
   yast2-core-devel \
@@ -57,9 +55,6 @@ COPY yast-travis-cpp /usr/local/bin/
 ENV LC_ALL=en_US.UTF-8
 RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
-
-# FIXME: temporary workaround to make Ruby 2.4 default
-RUN cp -a /usr/bin/ruby.ruby2.4 /usr/bin/ruby
 
 # run some smoke tests to make sure there is no serious issue with the image
 RUN /usr/lib/YaST2/bin/y2base --help && c++ --version && rake -r yast/rake -V
