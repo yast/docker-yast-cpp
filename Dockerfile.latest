@@ -9,12 +9,10 @@ RUN zypper --gpg-auto-import-keys --non-interactive dup --no-recommends \
 # see https://docs.docker.com/engine/userguide/eng-image/dockerfile_best-practices/#run
 # https://docs.docker.com/engine/userguide/eng-image/dockerfile_best-practices/#/build-cache
 # why we need "zypper clean -a" at the end
-## FIXME: remove the ruby2.4 workaround (replace by pure "ruby")
 RUN zypper --gpg-auto-import-keys --non-interactive in --no-recommends \
-  ruby2.4 && zypper clean -a
+  ruby && zypper clean -a
 
-## FIXME: remove the 2.4 workaround, use RUBY_VERSION=`rpm --eval '%{rb_default_ruby_abi}'`
-RUN RUBY_VERSION=ruby:2.4.0 && \
+RUN RUBY_VERSION=`rpm --eval '%{rb_default_ruby_abi}'` && \
   zypper --gpg-auto-import-keys --non-interactive in --no-recommends \
   aspell-en \
   fdupes \
