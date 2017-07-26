@@ -1,5 +1,5 @@
 FROM opensuse:tumbleweed
-RUN zypper ar -f http://download.opensuse.org/repositories/YaST:/Head/openSUSE_Factory/ yast
+RUN zypper ar -f http://download.opensuse.org/repositories/YaST:/Head/openSUSE_Tumbleweed/ yast
 
 # "zypper dup" synchronizes with the current Tumbleweed (even downgrades if needed)
 RUN zypper --gpg-auto-import-keys --non-interactive dup --no-recommends \
