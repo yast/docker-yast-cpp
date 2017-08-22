@@ -42,6 +42,7 @@ RUN RUBY_VERSION=`rpm --eval '%{rb_default_ruby_abi}'` && \
   gcc-c++ \
   libtool \
   libxslt \
+  build \
   obs-service-source_validator \
   ruby-devel \
   sgml-skel \
