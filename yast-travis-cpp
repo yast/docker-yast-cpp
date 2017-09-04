@@ -10,7 +10,15 @@ set -e -x
 # "osc build" is too resource hungry (builds a complete chroot from scratch).
 # Moreover it does not work in a Docker container (it fails when trying to mount
 # /proc and /sys in the chroot).
-rake tarball > /dev/null 2>&1
+if [ -f Makefile.repo ]; then
+  make -f Makefile.repo
+  make package
+elif [ -f Rakefile ]; then
+  rake tarball > /dev/null 2>&1
+else
+  echo "ERROR: Missing Makefile.repo or Rakefile, cannot build the package"
+  exit 1
+fi
 
 if [ -d package ]; then
   # run the osc source validator to check the .spec and .changes locally
