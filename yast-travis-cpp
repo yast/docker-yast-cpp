@@ -10,7 +10,9 @@ set -e -x
 # "osc build" is too resource hungry (builds a complete chroot from scratch).
 # Moreover it does not work in a Docker container (it fails when trying to mount
 # /proc and /sys in the chroot).
-if [ -f Makefile.repo ]; then
+if [ -f utils/make_package ]; then
+  utils/make_package
+elif [ -f Makefile.repo ]; then
   make -f Makefile.repo
   make package
 elif [ -f Rakefile ]; then
