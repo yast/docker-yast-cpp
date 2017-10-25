@@ -3,22 +3,25 @@
 # (which is used as the base for CaaSP) for running the YaST tests.
 FROM opensuse:42.2
 
+# we need to install Ruby first to define the %{rb_default_ruby_abi} RPM macro
+# and curl for downloading/installing the GPG key
+# see https://docs.docker.com/engine/userguide/eng-image/dockerfile_best-practices/#run
+# https://docs.docker.com/engine/userguide/eng-image/dockerfile_best-practices/#/build-cache
+# why we need "zypper clean -a" at the end
+RUN zypper --non-interactive in --no-recommends curl ruby && zypper clean -a
+
+# import the YaST OBS GPG key
+RUN rpm --import https://build.opensuse.org/projects/YaST/public_key
+
 # Set a higher priority for the yast_sle_12_sp2 repo to prefer the packages from
 # this repo even if they have a lower version than the original 42.2 packages.
-RUN zypper ar -f -p95 http://download.opensuse.org/repositories/YaST:/SLE-12:/SP2/SLE_12_SP2/ \
+RUN zypper ar -f -p95 https://download.opensuse.org/repositories/YaST:/SLE-12:/SP2/SLE_12_SP2/ \
   yast_sle_12_sp2
 
 # Set the highest priority for the yast_caasp_1.0 repo to override the
 # yast_sle_12_sp2 and the original 42.2 packages.
-RUN zypper ar -f -p30 http://download.opensuse.org/repositories/YaST:/CASP:/1.0/SLE_12_SP2/ \
+RUN zypper ar -f -p30 https://download.opensuse.org/repositories/YaST:/CASP:/1.0/SLE_12_SP2/ \
   yast_caasp_1.0
-
-# we need to install Ruby first to define the %{rb_default_ruby_abi} RPM macro
-# see https://docs.docker.com/engine/userguide/eng-image/dockerfile_best-practices/#run
-# https://docs.docker.com/engine/userguide/eng-image/dockerfile_best-practices/#/build-cache
-# why we need "zypper clean -a" at the end
-RUN zypper --gpg-auto-import-keys --non-interactive in --no-recommends \
-  ruby && zypper clean -a
 
 RUN RUBY_VERSION=`rpm --eval '%{rb_default_ruby_abi}'` && \
   zypper --gpg-auto-import-keys --non-interactive in --no-recommends \
