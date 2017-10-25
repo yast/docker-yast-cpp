@@ -24,7 +24,7 @@ RUN zypper ar -f -p30 https://download.opensuse.org/repositories/YaST:/CASP:/1.0
   yast_caasp_1.0
 
 RUN RUBY_VERSION=`rpm --eval '%{rb_default_ruby_abi}'` && \
-  zypper --gpg-auto-import-keys --non-interactive in --no-recommends \
+  zypper --non-interactive in --no-recommends \
   aspell-en \
   fdupes \
   git \
