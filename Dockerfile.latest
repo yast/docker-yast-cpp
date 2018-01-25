@@ -15,7 +15,7 @@ RUN rpm --import https://build.opensuse.org/projects/YaST/public_key
 
 RUN zypper ar -f https://download.opensuse.org/repositories/YaST:/Head/openSUSE_Tumbleweed/ yast
 
-RUN RUBY_VERSION=`rpm --eval '%{rb_default_ruby_abi}'` && \
+RUN RUBY_VERSION=ruby:`rpm --eval '%{rb_ver}'` && \
   zypper --non-interactive in --no-recommends \
   aspell-en \
   fdupes \
