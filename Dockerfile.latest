@@ -25,6 +25,7 @@ RUN RUBY_VERSION=ruby:`rpm --eval '%{rb_ver}'` && \
   update-desktop-files \
   which \
   screen \
+  "rubygem($RUBY_VERSION:coveralls)" \
   "rubygem($RUBY_VERSION:fast_gettext)" \
   "rubygem($RUBY_VERSION:gettext)" \
   "rubygem($RUBY_VERSION:raspell)" \
