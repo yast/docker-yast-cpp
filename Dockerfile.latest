@@ -1,4 +1,4 @@
-FROM opensuse:tumbleweed
+FROM opensuse/tumbleweed
 
 # "zypper dup" synchronizes with the current Tumbleweed (even downgrades if needed),
 # we need to install Ruby first to define the %{rb_default_ruby_abi} RPM macro
