@@ -14,4 +14,5 @@ env:
   - DOCKER_TAG=latest
   - DOCKER_TAG=sle12-sp2
   - DOCKER_TAG=sle12-sp3
+  - DOCKER_TAG=sle15
   - DOCKER_TAG=caasp-1_0

@@ -1,0 +1,68 @@
+# SLE15 is officially not available at the Docker Hub
+# because of some licensing issues, use openSUSE Leap 15.0 as a replacement.
+# It shares the same core packages and should be close enough to SLE15
+# for running the YaST tests.
+FROM opensuse/leap:15.0
+
+# we need to install Ruby first to define the %{rb_default_ruby_abi} RPM macro
+# and curl for downloading/installing the GPG key
+# see https://docs.docker.com/engine/userguide/eng-image/dockerfile_best-practices/#run
+# https://docs.docker.com/engine/userguide/eng-image/dockerfile_best-practices/#/build-cache
+# why we need "zypper clean -a" at the end
+RUN zypper --non-interactive in --no-recommends curl ruby &&  zypper clean -a
+
+# import the YaST OBS GPG key
+RUN rpm --import https://build.opensuse.org/projects/YaST/public_key
+
+# Set a higher priority for the yast_sle15 repo to prefer the packages from
+# this repo even if they have a lower version than the original 15.0 packages.
+RUN zypper ar -f -p 95 https://download.opensuse.org/repositories/YaST:/SLE-15:/GA/openSUSE_Leap_15.0 \
+  yast_sle15
+
+RUN RUBY_VERSION=ruby:`rpm --eval '%{rb_ver}'` && \
+  zypper --non-interactive in --no-recommends \
+  aspell-en \
+  fdupes \
+  git \
+  rpm-build \
+  update-desktop-files \
+  which \
+  screen \
+  "rubygem($RUBY_VERSION:coveralls)" \
+  "rubygem($RUBY_VERSION:fast_gettext)" \
+  "rubygem($RUBY_VERSION:gettext)" \
+  "rubygem($RUBY_VERSION:raspell)" \
+  "rubygem($RUBY_VERSION:rspec)" \
+  "rubygem($RUBY_VERSION:rubocop)" \
+  "rubygem($RUBY_VERSION:simplecov)" \
+  "rubygem($RUBY_VERSION:yard)" \
+  "rubygem($RUBY_VERSION:yast-rake)" \
+  autoconf \
+  automake \
+  bison \
+  boost-devel \
+  cmake \
+  dejagnu \
+  docbook-xsl-stylesheets \
+  doxygen \
+  flex \
+  gcc-c++ \
+  libtool \
+  libxslt \
+  build \
+  obs-service-source_validator \
+  ruby-devel \
+  sgml-skel \
+  yast2-devtools \
+  yast2-core-devel \
+  yast2-devtools \
+  hwinfo-devel \
+  yast2-ycp-ui-bindings-devel \
+  && zypper clean -a
+COPY yast-travis-cpp /usr/local/bin/
+ENV LC_ALL=en_US.UTF-8
+RUN mkdir -p /usr/src/app
+WORKDIR /usr/src/app
+
+# run some smoke tests to make sure there is no serious issue with the image
+RUN /usr/lib/YaST2/bin/y2base --help && c++ --version && rake -r yast/rake -V
