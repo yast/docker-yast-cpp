@@ -1,5 +1,8 @@
 FROM opensuse/tumbleweed
 
+# do not install the files marked as documentation (use "rpm --excludedocs")
+RUN sed -i -e "s/^.*rpm.install.excludedocs.*/rpm.install.excludedocs = yes/" /etc/zypp/zypp.conf
+
 # "zypper dup" synchronizes with the current Tumbleweed (even downgrades if needed),
 # we need to install Ruby first to define the %{rb_default_ruby_abi} RPM macro
 # and curl for downloading/installing the GPG key
@@ -55,7 +58,10 @@ RUN RUBY_VERSION=ruby:`rpm --eval '%{rb_ver}'` && \
   yast2-devtools \
   hwinfo-devel \
   yast2-ycp-ui-bindings-devel \
-  && zypper clean -a
+  && zypper clean -a \
+  && rm -rf /usr/lib*/ruby/gems/*/cache/ \
+  && rm -rf /usr/share/doc/
+
 COPY yast-travis-cpp /usr/local/bin/
 ENV LC_ALL=en_US.UTF-8
 RUN mkdir -p /usr/src/app
