@@ -16,6 +16,7 @@ elif [ -f Makefile.repo ]; then
   make -f Makefile.repo
   make package
 elif [ -f Rakefile ]; then
+  rake pot
   rake tarball > /dev/null 2>&1
 else
   echo "ERROR: Missing Makefile.repo or Rakefile, cannot build the package"
