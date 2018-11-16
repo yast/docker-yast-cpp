@@ -8,6 +8,7 @@ script:
   - bash -n yast-travis-cpp
   # build the Docker image
   - docker build -t yast-test-image -f Dockerfile.$DOCKER_TAG .
+  - 'if [ "$DOCKER_TAG" = "latest" ]; then docker run -it yast-test-image shellcheck /usr/local/bin/yast-travis-cpp; fi'
 
 env:
   # define the build matrix to build all images in parallel

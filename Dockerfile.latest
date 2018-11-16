@@ -16,7 +16,8 @@ RUN zypper --non-interactive dup --no-recommends && \
 # import the YaST OBS GPG key
 RUN rpm --import https://build.opensuse.org/projects/YaST/public_key
 
-RUN zypper ar -f https://download.opensuse.org/repositories/YaST:/Head/openSUSE_Tumbleweed/ yast
+# Prefer the packages from the YaST:Head repository
+RUN zypper ar -p 50 -f https://download.opensuse.org/repositories/YaST:/Head/openSUSE_Tumbleweed/ yast
 
 RUN RUBY_VERSION=ruby:`rpm --eval '%{rb_ver}'` && \
   zypper --non-interactive in --no-recommends \
@@ -53,6 +54,7 @@ RUN RUBY_VERSION=ruby:`rpm --eval '%{rb_ver}'` && \
   obs-service-source_validator \
   ruby-devel \
   sgml-skel \
+  ShellCheck \
   yast2-devtools \
   yast2-core-devel \
   yast2-devtools \
