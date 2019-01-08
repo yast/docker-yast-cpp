@@ -55,6 +55,7 @@ RUN RUBY_VERSION=ruby:`rpm --eval '%{rb_ver}'` && \
   obs-service-source_validator \
   ruby-devel \
   sgml-skel \
+  ShellCheck \
   yast2-devtools \
   yast2-core-devel \
   yast2-devtools \
