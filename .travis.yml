@@ -4,10 +4,10 @@ services:
   - docker
 
 script:
-  # at least run a syntax check for the Travis script
-  - bash -n yast-travis-cpp
   # build the Docker image
   - docker build -t yast-test-image -f Dockerfile.$DOCKER_TAG .
+  # check the Travis script
+  - 'if [ "$DOCKER_TAG" = "latest" ]; then docker run -it yast-test-image shellcheck /usr/local/bin/yast-travis-cpp; fi'
 
 env:
   # define the build matrix to build all images in parallel
