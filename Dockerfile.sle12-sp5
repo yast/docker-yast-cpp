@@ -1,8 +1,9 @@
-# SLE15 is officially not available at the Docker Hub
-# because of some licensing issues, use openSUSE Leap 15.0 as a replacement.
-# It shares the same core packages and should be close enough to SLE15
+# SLE12-SP5 is officially not available at the Docker Hub
+# because of some licensing issues, use openSUSE-42.3 as a replacement
+# as there is no openSUSE-42.5 release which would be the equivalent to SLES12-SP5.
+# It shares the same core packages and should be close enough to SLE12-SP5
 # for running the YaST tests.
-FROM opensuse/leap:15.0
+FROM opensuse:42.3
 
 # do not install the files marked as documentation (use "rpm --excludedocs")
 RUN sed -i -e "s/^.*rpm.install.excludedocs.*/rpm.install.excludedocs = yes/" /etc/zypp/zypp.conf
@@ -12,26 +13,26 @@ RUN sed -i -e "s/^.*rpm.install.excludedocs.*/rpm.install.excludedocs = yes/" /e
 # see https://docs.docker.com/engine/userguide/eng-image/dockerfile_best-practices/#run
 # https://docs.docker.com/engine/userguide/eng-image/dockerfile_best-practices/#/build-cache
 # why we need "zypper clean -a" at the end
-RUN zypper --non-interactive in --no-recommends --force-resolution curl ruby &&  zypper clean -a
+RUN zypper --non-interactive in --no-recommends curl ruby && zypper clean -a
 
 # import the YaST OBS GPG key
 RUN rpm --import https://build.opensuse.org/projects/YaST/public_key
 
-# Set a higher priority for the yast_sle15 repo to prefer the packages from
-# this repo even if they have a lower version than the original 15.0 packages.
-RUN zypper ar -f -p 95 https://download.opensuse.org/repositories/YaST:/SLE-15:/GA/openSUSE_Leap_15.0 \
-  yast_sle15
+# Set a higher priority for the yast_sle_12_sp5 repo to prefer the packages from
+# this repo even if they have a lower version than the original 42.3 packages.
+RUN zypper ar -f -p 95 https://download.opensuse.org/repositories/YaST:/SLE-12:/SP5/openSUSE_Leap_42.3/ \
+  yast_sle12_sp5
 
-RUN RUBY_VERSION=ruby:`rpm --eval '%{rb_ver}'` && \
-  zypper --non-interactive in --no-recommends --force-resolution \
+RUN RUBY_VERSION=`rpm --eval '%{rb_default_ruby_abi}'` && \
+  zypper --non-interactive in --no-recommends \
   aspell-en \
   fdupes \
   git \
+  grep \
   rpm-build \
   update-desktop-files \
   which \
   screen \
-  "rubygem($RUBY_VERSION:coveralls)" \
   "rubygem($RUBY_VERSION:fast_gettext)" \
   "rubygem($RUBY_VERSION:gettext)" \
   "rubygem($RUBY_VERSION:raspell)" \
@@ -52,7 +53,6 @@ RUN RUBY_VERSION=ruby:`rpm --eval '%{rb_ver}'` && \
   gcc-c++ \
   libtool \
   libxslt \
-  build \
   obs-service-source_validator \
   ruby-devel \
   sgml-skel \

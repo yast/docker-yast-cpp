@@ -12,8 +12,12 @@ script:
 env:
   # define the build matrix to build all images in parallel
   - DOCKER_TAG=latest
-  - DOCKER_TAG=sle12-sp2
+  # the 42.2 base image is not available anymore
+  # - DOCKER_TAG=sle12-sp2
   - DOCKER_TAG=sle12-sp3
   - DOCKER_TAG=sle12-sp4
+  - DOCKER_TAG=sle12-sp5
   - DOCKER_TAG=sle15
-  - DOCKER_TAG=caasp-1_0
+  - DOCKER_TAG=sle15-sp1
+  # the 42.2 base image is not available anymore
+  # - DOCKER_TAG=caasp-1_0
