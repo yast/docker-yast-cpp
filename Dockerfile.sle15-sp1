@@ -12,7 +12,7 @@ RUN sed -i -e "s/^.*rpm.install.excludedocs.*/rpm.install.excludedocs = yes/" /e
 # see https://docs.docker.com/engine/userguide/eng-image/dockerfile_best-practices/#run
 # https://docs.docker.com/engine/userguide/eng-image/dockerfile_best-practices/#/build-cache
 # why we need "zypper clean -a" at the end
-RUN zypper --non-interactive in --no-recommends curl ruby &&  zypper clean -a
+RUN zypper --non-interactive in --no-recommends --force-resolution curl ruby &&  zypper clean -a
 
 # import the YaST OBS GPG key
 RUN rpm --import https://build.opensuse.org/projects/YaST/public_key
@@ -23,7 +23,7 @@ RUN zypper ar -f -p 95 https://download.opensuse.org/repositories/YaST:/SLE-15:/
   yast_15.1
 
 RUN RUBY_VERSION=ruby:`rpm --eval '%{rb_ver}'` && \
-  zypper --non-interactive in --no-recommends \
+  zypper --non-interactive in --no-recommends --force-resolution \
   aspell-en \
   brp-check-suse \
   brp-extract-appdata \
