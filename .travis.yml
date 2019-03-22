@@ -16,6 +16,7 @@ env:
   # - DOCKER_TAG=sle12-sp2
   - DOCKER_TAG=sle12-sp3
   - DOCKER_TAG=sle12-sp4
+  - DOCKER_TAG=sle12-sp5
   - DOCKER_TAG=sle15
   - DOCKER_TAG=sle15-sp1
   # the 42.2 base image is not available anymore
