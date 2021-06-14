@@ -1,6 +1,7 @@
 # The YaST C++ Testing Image
 
-[![Build Status](https://travis-ci.org/yast/docker-yast-cpp.svg?branch=master)](https://travis-ci.org/yast/docker-yast-cpp)
+[![CI](https://github.com/yast/docker-yast-cpp/actions/workflows/ci.yml/badge.svg)](
+https://github.com/yast/docker-yast-cpp/actions/workflows/ci.yml)
 
 This repository builds a [Docker](https://www.docker.com/) image which is used
 for running the CI tests at [Travis](https://travis-ci.org/).

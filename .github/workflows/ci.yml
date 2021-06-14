@@ -1,0 +1,29 @@
+
+# See https://docs.github.com/en/actions/reference/workflow-syntax-for-github-actions
+
+name: CI
+
+on: [push, pull_request]
+
+jobs:
+  Build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        flavour: 
+          - sle12-sp3
+          - sle12-sp4
+          - sle12-sp5
+          # Disabled, unfortunately zypper segfaults in this build :-(
+          # - sle15
+          - sle15-sp1
+
+    steps:
+
+    - name: Git Checkout
+      uses: actions/checkout@v2
+
+    - name: Build the Docker Image
+      run: docker build -t yast-ruby -f Dockerfile.${{ matrix.flavour }} .
+

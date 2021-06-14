@@ -3,7 +3,7 @@
 # as there is no openSUSE-42.5 release which would be the equivalent to SLES12-SP5.
 # It shares the same core packages and should be close enough to SLE12-SP5
 # for running the YaST tests.
-FROM opensuse:42.3
+FROM opensuse/leap:42.3
 
 # do not install the files marked as documentation (use "rpm --excludedocs")
 RUN sed -i -e "s/^.*rpm.install.excludedocs.*/rpm.install.excludedocs = yes/" /etc/zypp/zypp.conf
